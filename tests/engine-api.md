@@ -71,17 +71,17 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * EL client starts with `Genesis` block and state
   * `forkchoiceUpdated(A.P1)`
     * `{status: SYNCING}`
-  * `newPayload(A.P1) forkchoiceUpdated(A.P1)`
+  * `newPayload(A.P1) + forkchoiceUpdated(A.P1)`
     * poll `forkchoiceUpdated(A.P1)` until it responds `{status: VALID}`, head is set to `A.P1`
   * `newPayload(B.P2')`
     * `{status: SYNCING}`
-  * `newPayload(B.P1') newPayload(B.P2') forkchoiceUpdated(B.P2')`
+  * `newPayload(B.P1') + newPayload(B.P2') + forkchoiceUpdated(B.P2')`
     * poll `forkchoiceUpdated(B.P2')` until it responds `{status: VALID}`, head is set to `B.P2'`
   * `forkchoiceUpdated(A.P1)`
     * re-orgs back to `A.P1`
   * `newPayload(A.P3)`
     * `{status: SYNCING}`
-  * `newPayload(A.P2) newPayload(A.P3) forkchoiceUpdated(A.P3)`
+  * `newPayload(A.P2) + newPayload(A.P3) + forkchoiceUpdated(A.P3)`
     * poll `forkchoiceUpdated(A.P3)` until it responds `{status: VALID}`, head is set to `A.P3'`
   
   </details>
@@ -92,15 +92,15 @@ All test cases described in this section are beginning in a post-Merge world, i.
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- INV_P2' <- P3' <- P4'`, `INV_P2'` is invalid payload
   * EL client starts with `A: P4` block and state
-  * `newPayload(INV_P2') forkchoiceUpdated(head: INV_P2')`
+  * `newPayload(INV_P2') + forkchoiceUpdated(head: INV_P2')`
     * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
   * EL pulls `P1'` from a remote peer on the network
   * `newPayload(P3')`
     * poll `newPayload(P3')` until response is `INVALID`, with `latestValidHash: P1'.blockHash`
     * `finalized`, `safe` and head blocks didn't change, i.e. are from `A` chain
-  * `newPayload(P2') forkchoiceUpdated(head: P2')`
-  * EL pulls `P1'` from a remote peer on the network
-  * poll `forkchoiceUpdated(P2')` until response is `INVALID`, with `latestValidHash: P1'.blockHash`
+  * `newPayload(P2') + forkchoiceUpdated(head: P2')`
+    * EL pulls `P1'` from a remote peer on the network
+    * poll `forkchoiceUpdated(P2')` until response is `INVALID`, with `latestValidHash: P1'.blockHash`
   
   </details>
 
@@ -169,12 +169,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
   <summary>Click for details &#9662;</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- P4` is a subchain of valid payloads extending canonical chain
-  * `newPayload(P1) forkchoiceUpdated(finalized: Genesis, safe: Genesis, head: P1)`
-  * `newPayload(P2) forkchoiceUpdated(finalized: Genesis, safe: P1, head: P2)`
+  * `newPayload(P1) + forkchoiceUpdated(finalized: Genesis, safe: Genesis, head: P1)`
+  * `newPayload(P2) + forkchoiceUpdated(finalized: Genesis, safe: P1, head: P2)`
     * EL sets `safe` to `P1`, head to `P2`, `finalized == Genesis`
-  * `newPayload(P3) forkchoiceUpdated(finalized: P1, safe: P2, head: P3)`
+  * `newPayload(P3) + forkchoiceUpdated(finalized: P1, safe: P2, head: P3)`
     * EL sets `finalized` to `P1`, `safe` to `P2`, head to `P3`
-  * `newPayload(P4) forkchoiceUpdated(finalized: P2, safe: P3, head: P4)`
+  * `newPayload(P4) + forkchoiceUpdated(finalized: P2, safe: P3, head: P4)`
     * EL sets `finalized` to `P2`, `safe` to `P3`, head to `P4`
   
   </details>
@@ -186,7 +186,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * `A: Genesis <- P1 <- P2 <- P3` is a subchain of valid payloads extending canonical chain, `B: Genesis <- P1 <- P2' <- P3'` is a subchain of valid payloads extending side chain
   * import `A` and call `forkchoiceUpdated(finalized: P1, safe: P2, head: P3)`
     * EL sets `finalized` to `P1`, `safe` to `P2`, head to `P3`
-  * import `B` by calling `newPayload(P2') newPayload(P3')` and call `forkchoiceUpdated(finalized: P1, safe: P2', head: P3')`
+  * import `B` by calling `newPayload(P2') + newPayload(P3')` and call `forkchoiceUpdated(finalized: P1, safe: P2', head: P3')`
     * note, this test might need `forkchoiceUpdated` poll as EL may respond with syncing
     * EL sets `finalized` to `P1`, `safe` to `P2'`, head to `P3'`
   
@@ -198,10 +198,10 @@ All test cases described in this section are beginning in a post-Merge world, i.
   
   * `Genesis <- P1 <- P2 <- P3 <- P4`
   * EL client starts with `Genesis` block and state
-  * `newPayload(P3) forkchoiceUpdated(head: P3)`
+  * `newPayload(P3) + forkchoiceUpdated(head: P3)`
     * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
   * EL client should pull `P1 <- P2` from a remote peer and finish the sync process successfully
-  * `newPayload(P4) forkchoiceUpdated(head: P4)`
+  * `newPayload(P4) + forkchoiceUpdated(head: P4)`
     * poll `forkchoiceUpdated(finalized: P2, safe: P3, head: P4)` until response is `VALID`
     * `finalized`, `safe` and head blocks are set accordingly
 * [ ] Re-org back to canonical chain while `SYNCING`
@@ -210,10 +210,10 @@ All test cases described in this section are beginning in a post-Merge world, i.
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- P2' <- P3' <- P4'`
   * EL client is synced up to `A.P3` block, i.e. `A.P3` is the head
-  * `newPayload(B.P4') forkchoiceUpdated(head: B.P4')`
+  * `newPayload(B.P4') + forkchoiceUpdated(head: B.P4')`
     * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
     * Note, the rest of `B` chain should be unavailable to keep EL unable to finish its sync process
-  * `newPayload(A.P4) forkchoiceUpdated(A.P4)`
+  * `newPayload(A.P4) + forkchoiceUpdated(A.P4)`
     * poll `forkchoiceUpdated(finalized: P2, safe: P3, head: P4)` until response is `VALID`
     * `finalized`, `safe` and head blocks are set accordingly
   
