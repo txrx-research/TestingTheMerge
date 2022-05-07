@@ -13,7 +13,7 @@
 All test cases described in this section are beginning in a post-Merge world, i.e. `Genesis` is a terminal PoW block.
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L610)] Invalid `block_hash`
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L578)] test should cover `block_hash` validation when EL is `SYNCING` and isn't `SYNCING` to be sure that sync doesn't affect the validation
@@ -22,7 +22,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/clmock.go#L244)] `VALID` *canonical* chain payload
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `P` is a `VALID` payload extending *canonical* chain
@@ -35,7 +35,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/535)] Inconsistent `ForkchoiceState`
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3`, `B: Genesis <- P1' <- P2' <- P3'`
@@ -51,7 +51,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/enginetests.go#L695)] `INVALID` *canonical* chain payload
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain
@@ -61,7 +61,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/enginetests.go#L352)] Payload with unknown parent
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3`, `B:  Genesis <- P1' <- P2' <- P3'`
@@ -83,7 +83,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [x] [[Hive](https://github.com/ethereum/hive/pull/526)] `SYNCING` with *invalid* chain
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- INV_P2' <- P3' <- P4'`, `INV_P2'` is invalid payload
@@ -100,7 +100,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/clmock.go#L295)] Build a payload
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `Genesis <- P1`
@@ -132,7 +132,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [x] [[Hive](https://github.com/ethereum/hive/pull/527)] Invalid `PayloadAttributes`
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `Genesis <- P1`
@@ -145,7 +145,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [ ] `VALID` *side* chain payload
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `P'` is a `VALID` payload extending *side* chain
@@ -157,7 +157,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [ ] Update finalized and safe block on canonical chain
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- P4` is a subchain of valid payloads extending canonical chain
@@ -171,7 +171,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [ ] Update safe block on a *side* chain
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3` is a subchain of valid payloads extending canonical chain, `B: Genesis <- P1 <- P2' <- P3'` is a subchain of valid payloads extending side chain
@@ -183,7 +183,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
 	
 	</details>
 * [ ] `SYNCING` with *valid* chain
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- P4`
@@ -195,7 +195,7 @@ All test cases described in this section are beginning in a post-Merge world, i.
     * poll `forkchoiceUpdated(finalized: P2, safe: P3, head: P4)` until response is `VALID`
     * `finalized`, `safe` and head blocks are set accordingly
 * [ ] Re-org back to canonical chain while `SYNCING`
-	<details open>
+	<details>
 	<summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- P2' <- P3' <- P4'`
