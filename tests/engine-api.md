@@ -13,17 +13,18 @@
 All test cases described in this section are beginning in a post-Merge world, i.e. `Genesis` is a terminal PoW block.
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L610)] Invalid `block_hash`
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L578)] test should cover `block_hash` validation when EL is `SYNCING` and isn't `SYNCING` to be sure that sync doesn't affect the validation
   * test should cover all possible inconsistencies of `block_hash` that are fairly easy to do, i.e. random hash, hash of a block if it were a valid PoW block, etc
   * [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L610)] EL responds with `{status: INVALID_BLOCK_HASH, latestValidHash: null, validationError: errorMessage | null}`
-	
-	</details>
+  
+  </details>
+
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/clmock.go#L244)] `VALID` *canonical* chain payload
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `P` is a `VALID` payload extending *canonical* chain
   * `newPayload(P)`
@@ -32,11 +33,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * `forkchoiceUpdated(headBlock: P)`
     * [[Hive PR](https://github.com/ethereum/hive/pull/534)] EL responds with `{payloadStatus: {status: VALID, latestValidHash: forkchoiceState.headBlockHash, validationError: null}, payloadId: null}`
     * [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1002)] EL sets head to `P`
-	
-	</details>
+  
+  </details>
+
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/535)] Inconsistent `ForkchoiceState`
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3`, `B: Genesis <- P1' <- P2' <- P3'`
   * EL client starts with fully imported `A` and `B`
@@ -48,21 +50,23 @@ All test cases described in this section are beginning in a post-Merge world, i.
     * `{error: {code: -38002, message: "Invalid forkchoice state"}}` in all cases listed above
   * `forkchoiceUpdated(finalized: B.P1', safe: B.P2', head: B.P3'`)
     * EL successfully re-orgs to `B.P3`, `finalized` and `safe` blocks are as expected
-	
-	</details>
+  
+  </details>
+
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/enginetests.go#L695)] `INVALID` *canonical* chain payload
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain
   * `newPayload(INV_P)`
     * `{status: INVALID, latestValidHash: P.parentHash, validationError: errorMessage | null}`
     * `INV_P` isn't available via `eth_getBlockByHash`
-	
-	</details>
+  
+  </details>
+
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/enginetests.go#L352)] Payload with unknown parent
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3`, `B:  Genesis <- P1' <- P2' <- P3'`
   * EL client starts with `Genesis` block and state
@@ -80,11 +84,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
     * `{status: SYNCING}`
   * `newPayload(A.P2) + newPayload(A.P3) + forkchoiceUpdated(A.P3)`
     * poll `forkchoiceUpdated(A.P3)` until it responds `{status: VALID}`, head is set to `A.P3'`
-	
-	</details>
+  
+  </details>
+
 * [x] [[Hive](https://github.com/ethereum/hive/pull/526)] `SYNCING` with *invalid* chain
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- INV_P2' <- P3' <- P4'`, `INV_P2'` is invalid payload
   * EL client starts with `A: P4` block and state
@@ -97,11 +102,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * `newPayload(P2') + forkchoiceUpdated(head: P2')`
   * EL pulls `P1'` from a remote peer on the network
   * poll `forkchoiceUpdated(P2')` until response is `INVALID`, with `latestValidHash: P1'.blockHash`
-	
-	</details>
+  
+  </details>
+
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/clmock.go#L295)] Build a payload
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `Genesis <- P1`
   * EL clients starts with `Genesis` block and state
@@ -129,11 +135,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * wait for 60 seconds
   * `getPayload(payloaId: existingPayloadId2)`
     * `{error: {code: -38001, message: "Unknown payload"}}`
-	
-	</details>
+  
+  </details>
+
 * [x] [[Hive](https://github.com/ethereum/hive/pull/527)] Invalid `PayloadAttributes`
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `Genesis <- P1`
   * EL clients starts with `Genesis` block and state
@@ -142,11 +149,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * `forkchoiceUpdated(P1, payloadAttributes: {timestamp: 0, validPrevRandao, validFeeRecipient})`
     * `{error: {code: -38003, message: "Invalid payload attributes"}}`
     * head is set to `P1`
-	
-	</details>
+  
+  </details>
+
 * [ ] `VALID` *side* chain payload
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `P'` is a `VALID` payload extending *side* chain
   * `newPayload(P')`
@@ -154,11 +162,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * `forkchoiceUpdated(headBlock: P')`
     * EL responds with `{payloadStatus: {status: VALID, latestValidHash: forkchoiceState.headBlockHash, validationError: null}, payloadId: null}`
     * EL sets head to `P'`
-	
-	</details>
+  
+  </details>
+
 * [ ] Update finalized and safe block on canonical chain
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- P4` is a subchain of valid payloads extending canonical chain
   * `newPayload(P1) + forkchoiceUpdated(finalized: Genesis, safe: Genesis, head: P1)`
@@ -168,11 +177,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
     * EL sets `finalized` to `P1`, `safe` to `P2`, head to `P3`
   * `newPayload(P4) + forkchoiceUpdated(finalized: P2, safe: P3, head: P4)`
     * EL sets `finalized` to `P2`, `safe` to `P3`, head to `P4`
-	
-	</details>
+  
+  </details>
+
 * [ ] Update safe block on a *side* chain
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3` is a subchain of valid payloads extending canonical chain, `B: Genesis <- P1 <- P2' <- P3'` is a subchain of valid payloads extending side chain
   * import `A` and call `forkchoiceUpdated(finalized: P1, safe: P2, head: P3)`
@@ -180,11 +190,12 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * import `B` by calling `newPayload(P2') + newPayload(P3')` and call `forkchoiceUpdated(finalized: P1, safe: P2', head: P3')`
     * note, this test might need `forkchoiceUpdated` poll as EL may respond with syncing
     * EL sets `finalized` to `P1`, `safe` to `P2'`, head to `P3'`
-	
-	</details>
+  
+  </details>
+
 * [ ] `SYNCING` with *valid* chain
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- P4`
   * EL client starts with `Genesis` block and state
@@ -195,8 +206,8 @@ All test cases described in this section are beginning in a post-Merge world, i.
     * poll `forkchoiceUpdated(finalized: P2, safe: P3, head: P4)` until response is `VALID`
     * `finalized`, `safe` and head blocks are set accordingly
 * [ ] Re-org back to canonical chain while `SYNCING`
-	<details>
-	<summary>+ Click for details</summary>
+  <details>
+  <summary>+ Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- P2' <- P3' <- P4'`
   * EL client is synced up to `A.P3` block, i.e. `A.P3` is the head
@@ -206,5 +217,6 @@ All test cases described in this section are beginning in a post-Merge world, i.
   * `newPayload(A.P4) + forkchoiceUpdated(A.P4)`
     * poll `forkchoiceUpdated(finalized: P2, safe: P3, head: P4)` until response is `VALID`
     * `finalized`, `safe` and head blocks are set accordingly
-	
-	</details>
+  
+  </details>
+
