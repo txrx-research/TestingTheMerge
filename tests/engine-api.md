@@ -276,3 +276,16 @@ All test cases described in this document are beginning in a post-Merge world, i
     * Client continues building canonical chain without issues
   
   </details>
+
+* [ ] Import and re-org to previously validated payload
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `Genesis <- P1 <- P2 <- P3 <- P4`
+  * EL starts with `head: P4, safe: P3, finalized: P2`
+  * `newPayload(P3)`
+    * EL returns `{status: VALID, latestValidHash: P3.blockHash}`
+  * `forkchoiceUpdated(head: P3, safe: P2, finalized: P1)`
+    * EL returns `{status: VALID, latestValidHash: P3.blockHash}`
+  
+  </details>
