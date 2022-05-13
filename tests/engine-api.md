@@ -57,6 +57,18 @@ All test cases described in this section are beginning in a post-Merge world, i.
   <summary>Click for details &#9662;</summary>
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain
+  * `INV_P` has a valid `block_hash` but is invalidated by the following invalid properties:
+    * `stateRoot` is invalid
+    * `receiptsRoot` is invalid
+    * `blockNumber` is less than or equal to `parent.blockNumber` or greater than `parent.blockNumber+1`
+    * `gasLimit` is greater than `parent.gasLimit + parent.gasLimit / 1024` or less than `parent.gasLimit - parent.gasLimit / 1024`
+    * `gasUsed` is not equal to the gas used by the transactions included
+    * `timestamp` is less than or equal to `parent.timestamp`
+    * `baseFeePerGas` is not coherent with `parent.baseFeePerGas` and `parent.gasUsed`
+    * `transactions` has either:
+      * Incomplete transactions
+      * Extra transactions
+      * Intrinsically invalid transactions
   * `newPayload(INV_P)`
     * `{status: INVALID, latestValidHash: P.parentHash, validationError: errorMessage | null}`
     * `INV_P` isn't available via `eth_getBlockByHash`
@@ -91,6 +103,18 @@ All test cases described in this section are beginning in a post-Merge world, i.
   <summary>Click for details &#9662;</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- INV_P2' <- P3' <- P4'`, `INV_P2'` is invalid payload
+  * `INV_P2'` has a valid `block_hash` but is invalidated by the following invalid properties:
+    * `stateRoot` is invalid
+    * `receiptsRoot` is invalid
+    * `blockNumber` is less than or equal to `parent.blockNumber` or greater than `parent.blockNumber+1`
+    * `gasLimit` is greater than `parent.gasLimit + parent.gasLimit / 1024` or less than `parent.gasLimit - parent.gasLimit / 1024`
+    * `gasUsed` is not equal to the gas used by the transactions included
+    * `timestamp` is less than or equal to `parent.timestamp`
+    * `baseFeePerGas` is not coherent with `parent.baseFeePerGas` and `parent.gasUsed`
+    * `transactions` has either:
+      * Incomplete transactions
+      * Extra transactions
+      * Intrinsically invalid transactions
   * EL client starts with `A: P4` block and state
   * `newPayload(INV_P2') + forkchoiceUpdated(head: INV_P2')`
     * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
@@ -151,16 +175,19 @@ All test cases described in this section are beginning in a post-Merge world, i.
   
   </details>
 
-* [ ] `VALID` *side* chain payload
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1213)] `VALID` *side* chain payload
   <details>
   <summary>Click for details &#9662;</summary>
   
   * `P'` is a `VALID` payload extending *side* chain
+  * `P` and `P'` contain the same transaction which uses `PREVRANDAO` to modify storage
+  * `P` and `P'` have different `prevRandao` values
   * `newPayload(P')`
     * Note: EL may respond with `ACCEPTED` or `VALID`
   * `forkchoiceUpdated(headBlock: P')`
     * EL responds with `{payloadStatus: {status: VALID, latestValidHash: forkchoiceState.headBlockHash, validationError: null}, payloadId: null}`
     * EL sets head to `P'`
+    * Storage is correctly updated with `P'.prevRandao`
   
   </details>
 
@@ -192,19 +219,19 @@ All test cases described in this section are beginning in a post-Merge world, i.
   
   </details>
 
-* [ ] `SYNCING` with *valid* chain
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1638)] `SYNCING` with *valid* chain
   <details>
   <summary>Click for details &#9662;</summary>
   
-  * `Genesis <- P1 <- P2 <- P3 <- P4`
+  * `Genesis <- P1 <- P2 <- P3 <- ... <- Pn`
   * EL client starts with `Genesis` block and state
-  * `newPayload(P3) + forkchoiceUpdated(head: P3)`
+  * `newPayload(Pn) + forkchoiceUpdated(head: Pn)`
     * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
-  * EL client should pull `P1 <- P2` from a remote peer and finish the sync process successfully
-  * `newPayload(P4) + forkchoiceUpdated(head: P4)`
-    * poll `forkchoiceUpdated(finalized: P2, safe: P3, head: P4)` until response is `VALID`
+  * EL client should pull `P1 <- P2 <- P3 <- ... <- Pn-1` from a remote peer and finish the sync process successfully
+  * `newPayload(Pn+1) + forkchoiceUpdated(head: Pn+1)`
+    * poll `newPayload + forkchoiceUpdated` with new payloads until response is `VALID`
     * `finalized`, `safe` and head blocks are set accordingly
-* [ ] Re-org back to canonical chain while `SYNCING`
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/539)] Re-org back to canonical chain while `SYNCING`
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -218,4 +245,305 @@ All test cases described in this section are beginning in a post-Merge world, i.
     * `finalized`, `safe` and head blocks are set accordingly
   
   </details>
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1122)] Re-org to a _side_ chain where a transaction is removed
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `A: Genesis <- P1`, `B: Genesis <- P1'`
+  * `P1` and `P1'` are valid payloads
+  * `P1` contains transaction `Tx1`, while `P1'` contains no transactions
+  * `newPayload(A.P1) + forkchoiceUpdated(head: A.P1)`
+    * EL responds with `{status: VALID, latestValidHash: A.P1, validationError: null}`
+  * Request `Tx1` receipt using the JSON-RPC
+    * Client returns the `Tx1` receipt
+  * `newPayload(B.P1') + forkchoiceUpdated(head: B.P1')`
+    * EL responds with `{status: VALID, latestValidHash: B.P1', validationError: null}`
+  * Request `Tx1` receipt using the JSON-RPC
+    * Client returns error and no `Tx1` receipt
+  
+  </details>
 
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1275)] `newPayload` with existing canonical chain payload
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `Genesis <- P1 <- P2 <- P3 <- ... <- Pn`
+  * `newPayload(P1) + forkchoiceUpdated(head: P1)` through `newPayload(Pn) + forkchoiceUpdated(head: Pn)`
+    * EL head is set to `Pn`
+  * `newPayload(P1)` through `newPayload(Pn)`
+    * EL returns `VALID` and no error
+  * `newPayload(Pn+1) + forkchoiceUpdated(head: Pn+1)`
+    * Client continues building canonical chain without issues
+  
+  </details>
+
+## EL client merge tests
+
+All test cases described in this section are beginning in a pre-Merge world and reach the terminal PoW during execution to perform the PoS transition.
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L103)] Re-org to Higher-Total-Difficulty PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B1.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `B1'.totalDifficulty > B1.totalDifficulty`
+  * `forkchoiceUpdated(head: B1)`
+    * EL responds with `{status: VALID, latestValidHash: B1, validationError: null}`
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1' <- P1`
+    * EL eventually syncs `B1'`, its descendants, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1' <- P1 <- ... <- Pn`
+  
+  </details>
+
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Higher-Total-Difficulty PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B1.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `B1'.totalDifficulty > B1.totalDifficulty`
+  * `forkchoiceUpdated(head: B1)`
+    * EL responds with `{status: VALID, latestValidHash: B1, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1 <- P1`
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1')` + `forkchoiceUpdated(head: P1')`, where `B1' <- P1'`
+    * EL eventually syncs `B1'`, its descendants, and responds `{status: VALID, latestValidHash: Pn', validationError: null}` to `forkchoiceUpdated(head: Pn')` where `B1' <- P1' <- ... <- Pn'`
+  
+  </details>
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L115)] Re-org to Lower-Total-Difficulty PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B1.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `B1.totalDifficulty > B1'.totalDifficulty`
+  * `forkchoiceUpdated(head: B1)`
+    * EL responds with `{status: VALID, latestValidHash: B1, validationError: null}`
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1' <- P1`
+    * EL eventually syncs `B1'`, its descendants, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1' <- P1 <- ... <- Pn`
+  
+  </details>
+
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Lower-Total-Difficulty PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B1.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `B1.totalDifficulty > B1'.totalDifficulty`
+  * `forkchoiceUpdated(head: B1)`
+    * EL responds with `{status: VALID, latestValidHash: B1, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1 <- P1`
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1')` + `forkchoiceUpdated(head: P1')`, where `B1' <- P1'`
+    * EL eventually syncs `B1'`, its descendants, and responds `{status: VALID, latestValidHash: Pn', validationError: null}` to `forkchoiceUpdated(head: Pn')` where `B1' <- P1' <- ... <- Pn'`
+  
+  </details>
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L127)] Two-Block Re-org to Higher-Total-Difficulty PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1' <- B2'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B2.totalDifficulty > TTD`, `B2'.totalDifficulty > TTD`
+  * `B2'.totalDifficulty > B2.totalDifficulty`
+  * `forkchoiceUpdated(head: B2)`
+    * EL responds with `{status: VALID, latestValidHash: B2, validationError: null}`
+  * `forkchoiceUpdated(head: B2')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B2' <- P1`
+    * EL eventually syncs `B1'`, `B2'`, their descendants, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1' <- B2' <- P1 <- ... <- Pn`
+  
+  </details>
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L139)] Two-Block Re-org to Lower-Total-Difficulty PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1' <- B2'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B2.totalDifficulty > TTD`, `B2'.totalDifficulty > TTD`
+  * `B2.totalDifficulty > B2'.totalDifficulty`
+  * `forkchoiceUpdated(head: B2)`
+    * EL responds with `{status: VALID, latestValidHash: B2, validationError: null}`
+  * `forkchoiceUpdated(head: B2')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B2' <- P1`
+    * EL eventually syncs `B1'`, `B2'`, their descendants, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1' <- B2' <- P1 <- ... <- Pn`
+  
+  </details>
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L151)] Re-org to Higher-Height PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1`, `B: Genesis <- B1' <- B2'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B1.totalDifficulty > TTD`, `B2'.totalDifficulty > TTD`
+  * `forkchoiceUpdated(head: B1)`
+    * EL responds with `{status: VALID, latestValidHash: B1, validationError: null}`
+  * `forkchoiceUpdated(head: B2')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B2' <- P1`
+    * EL eventually syncs `B1'`, `B2'`, their descendants, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1' <- B2' <- P1 <- ... <- Pn`
+  
+  </details>
+
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Higher-Height PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1`, `B: Genesis <- B1' <- B2'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B1.totalDifficulty > TTD`, `B2'.totalDifficulty > TTD`
+  * `forkchoiceUpdated(head: B1)`
+    * EL responds with `{status: VALID, latestValidHash: B1, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1 <- P1`
+  * `forkchoiceUpdated(head: B2')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1')` + `forkchoiceUpdated(head: P1')`, where `B2' <- P1'`
+    * EL eventually syncs `B1'`, `B2'`, their descendants, and responds `{status: VALID, latestValidHash: Pn', validationError: null}` to `forkchoiceUpdated(head: Pn')` where `B1' <- B2' <- P1' <- ... <- Pn'`
+  
+  </details>
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L163)] Re-org to Lower-Height PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B2.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `forkchoiceUpdated(head: B2)`
+    * EL responds with `{status: VALID, latestValidHash: B2, validationError: null}`
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1' <- P1`
+    * EL eventually syncs `B1'`, its descendants, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1' <- P1 <- ... <- Pn`
+  
+  </details>
+
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Lower-Height PoW Chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B2.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `forkchoiceUpdated(head: B2)`
+    * EL responds with `{status: VALID, latestValidHash: B2, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B2 <- P1`
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1')` + `forkchoiceUpdated(head: P1')`, where `B1' <- P1'`
+    * EL eventually syncs `B1'`, its descendants, and responds `{status: VALID, latestValidHash: Pn', validationError: null}` to `forkchoiceUpdated(head: Pn')` where `B1' <- P1' <- ... <- Pn'`
+  
+  </details>
+
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Re-org to Chain With Invalid Terminal Block (`Block.totalDifficulty < TTD`)
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * EL client 1 has higher `TTD` configuration than EL client 2, such that:
+    * For EL client 1, `B2.totalDifficulty > TTD`, `B1.totalDifficulty < TTD`, `B1'.totalDifficulty < TTD`
+    * For EL client 2, `B1.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `forkchoiceUpdated(head: B2)`
+    * EL responds with `{status: VALID, latestValidHash: B2, validationError: null}`
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1' <- P1`
+    * EL eventually syncs `B1'`, its descendants, but `head` remains `B2`
+  
+  </details>
+
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Re-org to Chain With Invalid Terminal Block (`Block.Parent.totalDifficulty > TTD`)
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1`, `B: Genesis <- B1' <- B2'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * EL client 1 has lower `TTD` configuration than EL client 2, such that:
+    * For EL client 1, `B1.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+    * For EL client 2, `B1.totalDifficulty < TTD`, `B1'.totalDifficulty < TTD`, `B2'.totalDifficulty > TTD`
+  * `forkchoiceUpdated(head: B1)`
+    * EL responds with `{status: VALID, latestValidHash: B1, validationError: null}`
+  * `forkchoiceUpdated(head: B2')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B2' <- P1`
+    * EL eventually syncs `B1'`, `B2'`, its descendants, but `head` remains `B1`
+  
+  </details>
+
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/538)] Re-org to Lower-Height PoW Chain with `PREVRANDAO` opcode transaction
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
+  * EL client 1 starts with `A`, EL client 2 starts with `B`
+  * Both clients have the same `TTD` configuration
+  * `B2.totalDifficulty > TTD`, `B1'.totalDifficulty > TTD`
+  * `B1` and `B1'` contain `Tx1`
+  * `B2` contains `Tx2`
+  * `Tx1` and `Tx2` save `DIFFICULTY` opcode to storage
+  * `forkchoiceUpdated(head: B2)`
+    * EL responds with `{status: VALID, latestValidHash: B2, validationError: null}`
+    * Storage matches the `DIFFICULTY` opcode
+  * `forkchoiceUpdated(head: B1')`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1' <- P1`
+    * `P1` contains `Tx2`
+    * EL eventually syncs `B1'`, its descendants, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1' <- P1 <- ... <- Pn`
+    * Storage matches the `PREVRANDAO` opcode
+  
+  </details>
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L175)] Halt following PoW chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `Genesis <- B1 <- B2`
+  * EL client 1 starts with chain up to block `B1`, EL client 2 starts with chain up to block `B2`
+  * EL client 2 has a higher `TTD` configuration than EL client 1
+  * `forkchoiceUpdated` is not sent to EL client 1
+  * Wait two minutes
+    * EL client 1 does not incorporate `B2` into its chain
+  
+  </details>
+
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L191)] Long PoW Chain Sync
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `Genesis <- B1 <- ... <- B1024`
+  * EL client 1 starts with chain up to block `B1`, EL client 2 starts with chain up to block `B1024`
+  * Both clients have the same `TTD` configuration
+  * `B1024.totalDifficulty > TTD`
+  * `forkchoiceUpdated(head: B1024)`
+    * EL responds with `{status: SYNCING, latestValidHash: null, validationError: null}`
+  * `newPayload(P1)` + `forkchoiceUpdated(head: P1)`, where `B1024 <- P1`
+    * EL eventually syncs `B1 <- ... <- B1024`, and responds `{status: VALID, latestValidHash: Pn, validationError: null}` to `forkchoiceUpdated(head: Pn)` where `B1 <- ... <- B1024 <- P1 <- ... <- Pn`
+  
+  </details>
