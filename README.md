@@ -1,7 +1,9 @@
 # TestingTheMerge™️
 
 This repository contains test scenarios checking that clients are compliant with the Merge specification.
+Test scenarios are described in several documents:
 * [Engine API](./tests/engine-api.md)
+* [Merge transition](./tests/transition.md)
 
 
 ## References
