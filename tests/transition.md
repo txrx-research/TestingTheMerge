@@ -1,4 +1,4 @@
-# Engine API tests
+# Merge transition tests
 
 All test cases described in this document are beginning in a pre-Merge world and reach the terminal PoW during execution to perform the PoS transition.
 
