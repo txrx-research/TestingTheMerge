@@ -242,8 +242,8 @@ All test cases described in this section are beginning in a post-Merge world, i.
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain
   * CL imports `BeaconBlock(INV_P)`
-    * `BeaconBlock(INV_P)` isn't available via `GET /eth/v1/beacon/headers/{block_id}`
     * EL mock artificially returns `INVALID`
+    * `BeaconBlock(INV_P)` isn't available via `GET /eth/v1/beacon/headers/{block_id}`
   
   </details>
 
