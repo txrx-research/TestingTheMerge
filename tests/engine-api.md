@@ -6,6 +6,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [EL client tests](#el-client-tests)
+- [CL client tests](#cl-client-tests)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -231,6 +232,9 @@ All test cases described in this document are beginning in a post-Merge world, i
   * `newPayload(Pn+1) + forkchoiceUpdated(head: Pn+1)`
     * poll `newPayload + forkchoiceUpdated` with new payloads until response is `VALID`
     * `finalized`, `safe` and head blocks are set accordingly
+  
+  </details>
+                                 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/539)] Re-org back to canonical chain while `SYNCING`
   <details>
   <summary>Click for details &#9662;</summary>
@@ -275,4 +279,63 @@ All test cases described in this document are beginning in a post-Merge world, i
   * `newPayload(Pn+1) + forkchoiceUpdated(head: Pn+1)`
     * Client continues building canonical chain without issues
   
+  </details>
+
+## CL client tests
+
+* [ ] `QUANTITY` field values are encoded correctly
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * Payload `P1` has all `QUANTITY` field values greater than `255`
+  * CL processes `BeaconBlock(P1)`
+    * All `P1` `QUANTITY` fields are big-endian
+  
+  </details>
+
+* [ ] `INVALID` *canonical* chain payload
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `INV_P` is an `INVALID` payload extending *canonical* chain
+  * CL imports `BeaconBlock(INV_P)`
+    * EL mock artificially returns `INVALID`
+    * `BeaconBlock(INV_P)` isn't available via `GET /eth/v1/beacon/headers/{block_id}`
+  
+  </details>
+
+* [ ] Invalid `block_hash`
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * Payload `P` is responded with `INVALID_BLOCK_HASH`
+    * EL mock artificially returns this status
+  * CL discards `BeaconBlock(P)`
+  
+  </details>
+
+* [ ] `SYNCING` with *invalid* chain
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `Genesis <- P1 <- P2 <- P3 <- P4`
+  * CL imports `BeaconBlock(P1) ... BeaconBlock(P4)` block by block
+    * EL mock should respond `SYNCING` on `newPayload(P2)`
+    * EL mock should respond `status: INVALID, latestValidHash: P1.blockHash` on `newPayload(P4)`
+  * CL's head must be `BeaconBlock(P1)`
+  * EL must receive `forkchoiceUpdated(P1)`
+  * `finalized`, `safe` and head blocks are as expected
+  
+  </details>
+
+* [ ] Timeouts
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `P` is a `VALID` payload extending *canonical* chain
+  * CL imports `BeaconBlock(P)`
+    * EL mock artificially pauses `newPayload` and `forkchoiceUpdated` by `timeout - 1s` seconds before responding
+    * `BeaconBlock(P)` is the head of CL chain
+    * `P` is the head of EL chain
+
   </details>
