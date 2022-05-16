@@ -281,7 +281,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [ ] Import and re-org to previously validated payload
+* [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1091)] Import and re-org to previously validated payload
   <details>
   <summary>Click for details &#9662;</summary>
 
