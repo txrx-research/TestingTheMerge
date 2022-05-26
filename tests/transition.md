@@ -8,6 +8,9 @@ All test cases described in this document are beginning in a pre-Merge world and
 - [`TERMINAL_TOTAL_DIFFICULTY`](#terminal_total_difficulty)
   - [EL client tests](#el-client-tests)
   - [CL client tests](#cl-client-tests)
+- [`TERMINAL_BLOCK_HASH`](#terminal_block_hash)
+  - [EL client tests](#el-client-tests-1)
+  - [CL client tests](#cl-client-tests-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
