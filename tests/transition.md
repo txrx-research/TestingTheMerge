@@ -324,7 +324,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Build atop of invalid terminal block
+* [x] [[Hive](https://github.com/ethereum/hive/blob/f2838a629dcd1a027a260cd10fc84899f89e3ba6/simulators/ethereum/engine/enginetests.go#L410)] Build atop of invalid terminal block
   <details>
   <summary>Click for details &#9662;</summary>
 
@@ -336,7 +336,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Transition on a valid chain
+* [x] [[Hive](https://github.com/ethereum/hive/pull/552)] Transition on a valid chain
   <details>
   <summary>Click for details &#9662;</summary>
 
@@ -361,7 +361,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Transition on an invalid chain
+* [x] [[Hive](https://github.com/ethereum/hive/pull/554)] Transition on an invalid chain
   <details>
   <summary>Click for details &#9662;</summary>
 
@@ -373,7 +373,7 @@ All test cases described in this document are beginning in a pre-Merge world and
     * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
     * EL's head points to `INV_TB` if `INV_TB.TD < TTD`, and to `INV_TB.parent` if `INV_TB.parent.TD >= TTD`
 
-* [ ] Re-org to chain with invalid transition block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/556)] Re-org to a chain with invalid transition block
   <details>
   <summary>Click for details &#9662;</summary>
 
@@ -389,11 +389,11 @@ All test cases described in this document are beginning in a pre-Merge world and
     * EL's head points to `A.P2`
   * `forkchoiceUpdated(head: B.INV_P1, safe: 0x00..00, finalized: 0x00..00)`
     * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
-    * EL's head points to `B.P1`
+    * EL's head points to `A.P2`
   
   </details>
 
-* [ ] Syncing with the chain having a valid transition
+* [x] [[Hive](https://github.com/ethereum/hive/blob/f2838a629dcd1a027a260cd10fc84899f89e3ba6/simulators/ethereum/engine/mergetests.go#L244)] Syncing with the chain having a valid transition
   <details>
   <summary>Click for details &#9662;</summary>
 
@@ -515,7 +515,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Stop processing synced PoW blocks
+* [x] [[Hive](https://github.com/ethereum/hive/blob/f2838a629dcd1a027a260cd10fc84899f89e3ba6/simulators/ethereum/engine/mergetests.go#L228)] Stop processing synced PoW blocks
   <details>
   <summary>Click for details &#9662;</summary>
 
