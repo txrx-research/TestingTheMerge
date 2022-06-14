@@ -692,7 +692,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
   <details>
   <summary>Click for details &#9662;</summary>
 
-  * `Genesis <- ... <- TB`, `TB` is a valid terminal block, `TB.blockHash == TBH`
+  * `A: Genesis <- ... <- TB`, `TB` is a valid terminal block, `TB.blockHash == TBH`
   * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
   * EL starts with `A` and `B` imported
   * `forkchoiceUpdated(headBlockHash: TB.blockHash, payloadAttributes: mergeTransitionBlockAttributes)`
@@ -709,7 +709,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
   <details>
   <summary>Click for details &#9662;</summary>
 
-  * `Genesis <- ... <- INV_TB`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `INV_TB.TD < TTD`
+  * `Genesis <- ... <- INV_TB`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `INV_TB.TD < TTD` and `TBH != INV_TB.blockHash`
   * EL starts with `INV_TB` as the head
   * `forkchoiceUpdated(headBlockHash: TB.blockHash, payloadAttributes: mergeTransitionBlockAttributes)`
     * EL returns `{status: INVALID, latestValidHash: 0x00..00, payloadId: null}`
@@ -723,8 +723,8 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
   * `A: Genesis <- ... <- TB <- P1 <- P2 <- P3`, `TB` is a valid terminal block, i.e. `TB.blockHash == TBH`
   * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
-  * EL starts with `A` and `B` imported
-  * `newPayload(P1)`
+  * EL starts with `A` imported up to `TB` and `B` imported up to `Bn`
+  * `newPayload(A.P1)`
     * EL returns `{status: VALID, latestValidHash: payload.blockHash}`
     * EL's head points to `TB`
   * `forkchoiceUpdated(head: P1, safe: 0x00..00, finalized: 0x00..00)`
@@ -747,7 +747,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
   <details>
   <summary>Click for details &#9662;</summary>
 
-  * `Genesis <- ... <- INV_TB <- P1`, `INV_TB` is a *valid PoW* but an *invalid terminal* block:
+  * `Genesis <- ... <- INV_TB <- P1`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `TBH != INV_TB.blockHash` and either of the following is true:
     * [ ] `INV_TB.TD < TTD`
     * [ ] `INV_TB.parent.TD >= TTD` -- it might require a second EL with a higher `TTD` value
   * EL starts with `INV_TB` as the head
@@ -757,7 +757,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
   
   </details>
 
-* [ ] Syncing with the chain having a valid transition,  with enabled `TBH` override
+* [ ] Syncing with the chain having a valid transition, with enabled `TBH` override
   <details>
   <summary>Click for details &#9662;</summary>
 
@@ -786,6 +786,9 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
 ### CL client tests
 
+In this section builder node means the one that is running all validators on it and thus builds the chain.
+An importer is a node that imports the chain built by and received from the builder.
+
 * [ ] Transition on a valid chain with `TBH` override enabled
   <details>
   <summary>Click for details &#9662;</summary>
@@ -795,7 +798,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
   * `CL: Genesis <- ... <- Bellatrix`
   * EL starts with imported `A` and `B`
   * `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH` is greater than `BELLATRIX_FORK_EPOCH` 
-  * CL strats with `Genesis` and builds a chain up to `Bellatrix` and upgrades to `Bellatrix`
+  * CL starts with `Genesis` and builds a chain up to `Bellatrix` and upgrades to `Bellatrix`
     * Merger transition starts only when `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH` is reached
   * CL drives EL through transition and finalizes it
     * The terminal block is `EL.A.TB`, and the PoS chain is built atop of that block
