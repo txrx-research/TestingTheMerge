@@ -8,6 +8,9 @@ All test cases described in this document are beginning in a pre-Merge world and
 - [`TERMINAL_TOTAL_DIFFICULTY`](#terminal_total_difficulty)
   - [EL client tests](#el-client-tests)
   - [CL client tests](#cl-client-tests)
+- [`TERMINAL_BLOCK_HASH`](#terminal_block_hash)
+  - [EL client tests](#el-client-tests-1)
+  - [CL client tests](#cl-client-tests-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -657,5 +660,179 @@ All test cases described in this document are beginning in a pre-Merge world and
       * Then a transition block proposed by the invalid builder will have to be applied optimistically with [`SAFE_SLOTS_TO_IMPORT_OPTIMISTICALLY`](https://github.com/ethereum/consensus-specs/blob/dev/sync/optimistic.md#constants) timeout -- it will give a time for importer to follow the valid chain
       * Invalid chain gets applied optimistically (because the invalid builder has more attesters and its chain is preferred by the fork choice rule) and importer's EL eventually responds with `{status: INVALID, latestValidHash: 0x00.00}` on this chain
       * CL is expected to invalidate the invalid chain blocks and switch back to the minor but valid chain
+  
+  </details>
+
+
+## `TERMINAL_BLOCK_HASH`
+
+Scenarios in this section are covering the case when a terminal PoW block is designated by specifying a certain `blockHash` value which is specified by `TERMINAL_BLOCK_HASH` parameter.
+
+This scenario is also known as `TERMINAL_BLOCK_HASH` override and is an emergency case scenario. On EL side the override involves specifying the following parameters (as per [EIP-3675](https://eips.ethereum.org/EIPS/eip-3675#terminal-pow-block-overriding)):
+* `TERMINAL_BLOCK_HASH` – set to the hash of a certain block to become the terminal PoW block.
+* `TERMINAL_BLOCK_NUMBER` – set to the number of a block designated by `TERMINAL_BLOCK_HASH`.
+* `TERMINAL_TOTAL_DIFFICULTY` – set to the total difficulty value of a block designated by `TERMINAL_BLOCK_HASH`.
+
+On CL side the override has to be enabled via updating [the following parameters](https://github.com/ethereum/consensus-specs/blob/dev/specs/bellatrix/beacon-chain.md#transition-settings):
+* `TERMINAL_BLOCK_HASH` – set to the hash of a certain block to become the terminal PoW block.
+* `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH` - set to the epoch when the Merge transition will be activated.
+
+
+### EL client tests
+
+EL client tests for `TBH` (`TERMINAL_BLOCK_HASH`) override are design with the following *potential* implementation in mind:
+* EL always triggers the Merge upgrade upon reaching `TERMINAL_TOTAL_DIFFICULTY`
+* `TERMINAL_BLOCK_HASH` + `TERMINAL_BLOCK_NUMBER` whitelists the canonical chain
+
+Effectively, this semantics gives the desired result. But if EL has two chains that have reached `TTD`, EL may not reject a transition payload built atop of a block which `blockHash != TBH`. But we have CL side to enforce the terminal block's `blockHash == TBH`. Which means that ommitting this check is OK on EL side. Tests in this section *doesn't* assume that `blockHash == TBH` is enforced by EL client implementations.
+
+With the above thoughts in mind, the goal of this section is to check that `TBH` override doesn't affect `TTD` block condition.
+
+* [ ] Propose valid transition block with enabled `TBH` override
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- ... <- TB`, `TB` is a valid terminal block, `TB.blockHash == TBH`
+  * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
+  * EL starts with `A` and `B` imported
+  * `forkchoiceUpdated(headBlockHash: TB.blockHash, payloadAttributes: mergeTransitionBlockAttributes)`
+    * EL's head is set to `headBlockHash`
+    * EL returns `{status: VALID, payloadId: mergeTransitionPayloadId}`
+  * `getPayload(mergeTransitionPayloadId)`
+    * EL returns merge transition payload
+  * `newPayload(mergeTransitionPayload)`
+    * EL returns `VALID`
+  
+  </details>
+
+* [ ] Build atop of invalid terminal block with enabled `TBH` override
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `Genesis <- ... <- INV_TB`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `INV_TB.TD < TTD` and `TBH != INV_TB.blockHash`
+  * EL starts with `INV_TB` as the head
+  * `forkchoiceUpdated(headBlockHash: TB.blockHash, payloadAttributes: mergeTransitionBlockAttributes)`
+    * EL returns `{status: INVALID, latestValidHash: 0x00..00, payloadId: null}`
+    * EL's head points to `INV_TB` if `INV_TB.TD < TTD`, and to `INV_TB.parent` if `INV_TB.parent.TD >= TTD`
+  
+  </details>
+
+* [ ] Transition on a valid chain with enabled `TBH` override
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- ... <- TB <- P1 <- P2 <- P3`, `TB` is a valid terminal block, i.e. `TB.blockHash == TBH`
+  * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
+  * EL starts with `A` imported up to `TB` and `B` imported up to `Bn`
+  * `newPayload(A.P1)`
+    * EL returns `{status: VALID, latestValidHash: payload.blockHash}`
+    * EL's head points to `TB`
+  * `forkchoiceUpdated(head: P1, safe: 0x00..00, finalized: 0x00..00)`
+    * EL returns `{status: VALID, latestValidHash: forkchoiceState.headBlockHash}`
+    * EL's head updated to `P1`
+    * `eth_getBlockByNumber(safe)` returns `-39001: Unknown block` error
+    * `eth_getBlockByNumber(finalized)` returns `-39001: Unknown block` error
+  * `newPayload(P2) + forkchoiceUpdated(head: P2, safe: P1, finalized: 0x00..00)`
+    * EL's head updated to `P2`
+    * `eth_getBlockByNumber(safe)` returns `-39001: Unknown block` error
+    * `eth_getBlockByNumber(finalized)` returns `-39001: Unknown block` error
+  * `newPayload(P3) + forkchoiceUpdated(head: P3, safe: P2, finalized: P1)`
+    * EL's head updated to `P3`
+    * `eth_getBlockByNumber(safe)` returns `P2`
+    * `eth_getBlockByNumber(finalized)` returns `P1`
+  
+  </details>
+
+* [ ] Transition on an invalid chain with enabled `TBH` override
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `Genesis <- ... <- INV_TB <- P1`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `TBH != INV_TB.blockHash` and either of the following is true:
+    * [ ] `INV_TB.TD < TTD`
+    * [ ] `INV_TB.parent.TD >= TTD` -- it might require a second EL with a higher `TTD` value
+  * EL starts with `INV_TB` as the head
+  * `newPayload(P1)`
+    * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
+    * EL's head points to `INV_TB` if `INV_TB.TD < TTD`, and to `INV_TB.parent` if `INV_TB.parent.TD >= TTD`
+  
+  </details>
+
+* [ ] Syncing with the chain having a valid transition, with enabled `TBH` override
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `A: Genesis <- ... <- Bn <- TB <- P1`, `TB` is a valid terminal block, i.e. `TB.blockHash == TBH`
+  * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
+  * EL starts with `B` imported
+  * `newPayload(P1) + forkchoiceUpdated(P1)`
+    * EL returns `{status: SYNCING}`
+    * EL's head points to `Bn`
+  * EL should pull `TB <- P1` from the network
+  * poll `forkchoiceUpdated(P1)`
+    * EL returns `{status: VALID, latestValidHash: null}`
+    * EL's head points to `P1`
+  
+  </details>
+
+* [ ] Stop processing synced PoW blocks with `TBH` override enabled
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * PoW client starts with `Genesis <- ... <- TB <- B1 <- B2 <- ... <- Bn` chain, where `TB` is a valid terminal block, i.e. `TB.blockHash == TBH`
+  * EL connects to the PoW client and syncs with the advertised chain
+    * EL's head points to `TB`
+  
+  </details>
+
+### CL client tests
+
+In this section builder node means the one that is running all validators on it and thus builds the chain.
+An importer is a node that imports the chain built by and received from the builder.
+
+* [ ] Transition on a valid chain with `TBH` override enabled
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `EL.A: Genesis <- ... <- TB`, `TB` is a valid terminal block. i.e. `TB.blockHash == TBH`
+  * `EL.B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
+  * `CL: Genesis <- ... <- Bellatrix`
+  * EL starts with imported `A` and `B`
+  * `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH` is greater than `BELLATRIX_FORK_EPOCH` 
+  * CL starts with `Genesis` and builds a chain up to `Bellatrix` and upgrades to `Bellatrix`
+    * Merger transition starts only when `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH` is reached
+  * CL drives EL through transition and finalizes it
+    * The terminal block is `EL.A.TB`, and the PoS chain is built atop of that block
+    * `eth_getBlockByNumber(latest)` returns the head
+    * `eth_getBlockByNumber(safe)` returns the most recent justified block
+    * `eth_getBlockByNumber(finalized)` returns the most recent finalized block
+  
+  </details>
+
+* [ ] Transition before `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH`
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `EL: Genesis <- ... <- Bn`
+  * Nodes: builder, importer; importer is connected to builder on both layers
+  * `Bn` is a valid terminal block to the builder's and importer's observation, i.e. `TBH == Bn.blockHash`
+  * `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH` on importer's side is much grater than on builder's side
+  * EL starts with `Bn` as the head
+  * The builder starts with `Genesis` and build a chain up to Bellatrix and beyond
+    * Importer does never imports a transition block and its head does always point to pre-transition block
+  
+  </details>
+
+* [ ] Transition with mismatched `TERMINAL_BLOCK_HASH`
+  <details>
+  <summary>Click for details &#9662;</summary>
+
+  * `EL: Genesis <- ... <- Bn`
+  * Nodes: builder, importer; importer is connected to builder on both layers
+  * `Bn` is a valid terminal block to the builder's observation, i.e. builder's `TBH == Bn.blockHash`
+  * `Bn` is an *invalid* terminal block to the importer's observation, i.e. builder's `TBH != Bn.blockHash`
+  * `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH` is the same on buidler's and importer's sides
+  * EL starts with `Bn` as the head
+  * The builder starts with `Genesis` and build a chain up to Bellatrix and beyond
+    * Importer does never imports a transition block and its head does always point to pre-transition block
   
   </details>
