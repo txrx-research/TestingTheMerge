@@ -294,6 +294,23 @@ All test cases described in this document are beginning in a post-Merge world, i
 
   </details>
 
+* [ ] Import and re-org to previously validated payload on a side chain
+  <details>
+  <summary>Click for details</summary>
+
+  * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1 <- P2 <- P3 <- P4`
+  * EL starts with imported `A` and `B` chains, and `A.P4` as the head
+  * `newPayload(B.P3)`
+    * EL returns `{status: VALID, latestValidHash: B.P3.blockHash}`
+  * `forkchoiceUpdated(head: B.P3, payloadAttributes: buildProcessAttributes)`
+    * EL returns `payloadStatus: {status: VALID, latestValidHash: B.P3.blockHash}, payloadId: buildProcessId`
+  * `getPayload(payloadId: buildProcessId)`
+    * EL returns `builtPayload`
+  * `newPayload(builtPayload)`
+    * EL returns `{status: VALID, latestValidHash: builtPayload.blockHash}`
+
+  </details>
+
 ## CL client tests
 
 * [ ] `QUANTITY` field values are encoded correctly
