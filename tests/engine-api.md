@@ -294,7 +294,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
   </details>
 
-* [ ] Import and re-org to previously validated payload on a side chain
+* [x] [[Hive](https://github.com/ethereum/hive/pull/578)] Import and re-org to previously validated payload on a side chain
   <details>
   <summary>Click for details</summary>
 
