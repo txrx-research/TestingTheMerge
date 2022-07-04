@@ -549,7 +549,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   * `EL: Genesis <- ... <- TB`, `TB` is a valid terminal block
   * `CL: Genesis <- ... <- Bellatrix`
   * EL starts with `TB` as the head or mines a chain up to `TB` 
-  * CL strats with `Genesis` and builds a chain up to `Bellatrix` and upgrades to `Bellatrix`
+  * CL starts with `Genesis` and builds a chain up to `Bellatrix` and upgrades to `Bellatrix`
   * CL drives EL through transition and finalizes it
     * `eth_getBlockByNumber(latest)` returns the head
     * `eth_getBlockByNumber(safe)` returns the most recent justified block
@@ -663,6 +663,17 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
+  * [[Hive](https://github.com/ethereum/hive/pull/569)] `TTD` before Bellatrix
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `Genesis <- ... <- Bn`
+  * EL clients start with `Bn` as head of the proof of work chain
+  * `Bn` is a valid terminal block for all clients
+  * Bellatrix epoch is reached after all clients have incorporated `Bn`
+  * Transition is successful as CL clients build on top of `Bn` once Bellatrix is reached.
+  
+  </details>
 
 ## `TERMINAL_BLOCK_HASH`
 

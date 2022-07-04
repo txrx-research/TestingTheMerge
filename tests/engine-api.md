@@ -313,7 +313,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 ## CL client tests
 
-* [ ] `QUANTITY` field values are encoded correctly
+* [[Hive](https://github.com/ethereum/hive/pull/569)] `QUANTITY` field values are encoded correctly
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -323,7 +323,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [ ] `INVALID` *canonical* chain payload
+* [[Hive](https://github.com/ethereum/hive/pull/569)] `INVALID` *canonical* chain payload
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -334,7 +334,25 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [ ] Invalid `block_hash`
+* [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `Timestamp`
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `INV_P` is an `INVALID` payload extending *canonical* chain produced by the EL where `timestamp` value extends beyond the current slot time range
+  * CL rejects `INV_P`
+  
+  </details>
+
+  * [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `PrevRandao`
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * `INV_P` is an `INVALID` payload extending *canonical* chain produced by the EL where `prevRandao` value is not the expected randao mix value for the given slot
+  * CL rejects `INV_P`
+  
+  </details>
+
+* [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `block_hash`
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -344,7 +362,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [ ] `SYNCING` with *invalid* chain
+* [[Hive](https://github.com/ethereum/hive/pull/569)] `SYNCING` with *invalid* chain
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -355,6 +373,16 @@ All test cases described in this document are beginning in a post-Merge world, i
   * CL's head must be `BeaconBlock(P1)`
   * EL must receive `forkchoiceUpdated(P1)`
   * `finalized`, `safe` and head blocks are as expected
+  
+  </details>
+
+  * [[Hive](https://github.com/ethereum/hive/pull/569)] `baseFee` encoding check
+  <details>
+  <summary>Click for details &#9662;</summary>
+  
+  * EL generates a payload `P1` where the `baseFee` field is greater or equal to 256
+  * CL accepts, broadcasts and validates the payload with the correct endianess
+  * `BeaconBlock(P1)` is incorporated into the chain
   
   </details>
 
