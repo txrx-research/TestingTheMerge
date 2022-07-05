@@ -313,7 +313,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 ## CL client tests
 
-* [[Hive](https://github.com/ethereum/hive/pull/569)] `QUANTITY` field values are encoded correctly
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `QUANTITY` field values are encoded correctly
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -323,7 +323,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [[Hive](https://github.com/ethereum/hive/pull/569)] `INVALID` *canonical* chain payload
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `INVALID` *canonical* chain payload
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -334,7 +334,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `Timestamp`
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `Timestamp`
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -352,7 +352,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `block_hash`
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `block_hash`
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -362,7 +362,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [[Hive](https://github.com/ethereum/hive/pull/569)] `SYNCING` with *invalid* chain
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `SYNCING` with *invalid* chain
   <details>
   <summary>Click for details &#9662;</summary>
   
@@ -376,7 +376,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-  * [[Hive](https://github.com/ethereum/hive/pull/569)] `baseFee` encoding check
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `baseFee` encoding check
   <details>
   <summary>Click for details &#9662;</summary>
   
