@@ -20,7 +20,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L103)] Re-org to Higher-Total-Difficulty PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -38,7 +38,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Higher-Total-Difficulty PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -57,7 +57,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L115)] Re-org to Lower-Total-Difficulty PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -75,7 +75,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Lower-Total-Difficulty PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -94,7 +94,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L127)] Two-Block Re-org to Higher-Total-Difficulty PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1' <- B2'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -112,7 +112,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L139)] Two-Block Re-org to Lower-Total-Difficulty PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1' <- B2'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -130,7 +130,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L151)] Re-org to Higher-Height PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1`, `B: Genesis <- B1' <- B2'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -147,7 +147,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Higher-Height PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1`, `B: Genesis <- B1' <- B2'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -165,7 +165,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L163)] Re-org to Lower-Height PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -182,7 +182,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Post-Merge Re-org to Lower-Height PoW Chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -200,7 +200,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Re-org to Chain With Invalid Terminal Block (`Block.totalDifficulty < TTD`)
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -218,7 +218,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/537)] Re-org to Chain With Invalid Terminal Block (`Block.Parent.totalDifficulty > TTD`)
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1`, `B: Genesis <- B1' <- B2'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -236,7 +236,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/538)] Re-org to Lower-Height PoW Chain with `PREVRANDAO` opcode transaction
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- B1 <- B2`, `B: Genesis <- B1'`
   * EL client 1 starts with `A`, EL client 2 starts with `B`
@@ -259,7 +259,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L175)] Halt following PoW chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- B1 <- B2`
   * EL client 1 starts with chain up to block `B1`, EL client 2 starts with chain up to block `B2`
@@ -272,7 +272,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/mergetests.go#L191)] Long PoW Chain Sync
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- B1 <- ... <- B1024`
   * EL client 1 starts with chain up to block `B1`, EL client 2 starts with chain up to block `B1024`
@@ -287,7 +287,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/32ff59c89c879972f00abe62137a566def81a080/simulators/ethereum/engine/clmock.go#L346)] Propose valid transition block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- TB`, `TB` is a valid terminal block
   * EL starts with `TB` as the head
@@ -307,7 +307,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/553)] Transition on a valid chain with missed `fcU`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- TB <- P1 <- P2 <- P3`, `TB` is a valid terminal block
   * EL starts with `TB` as the head
@@ -329,7 +329,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/f2838a629dcd1a027a260cd10fc84899f89e3ba6/simulators/ethereum/engine/enginetests.go#L410)] Build atop of invalid terminal block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- INV_TB`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `INV_TB.TD < TTD`; `INV_TB.parent.TD >= TTD` can't be checked easily as EL wouldn't process such block
   * EL starts with `INV_TB` as the head
@@ -341,7 +341,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/552)] Transition on a valid chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- TB <- P1 <- P2 <- P3`, `TB` is a valid terminal block
   * EL starts with `TB` as the head
@@ -366,7 +366,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/554)] Transition on an invalid chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- INV_TB <- P1`, `INV_TB` is a *valid PoW* but an *invalid terminal* block:
     * [ ] `INV_TB.TD < TTD`
@@ -378,7 +378,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/556)] Re-org to a chain with invalid transition block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB <- P1 <- P2`, `B: Genesis <- ... <- TB <- INV_P1`, `A.TB` and `B.TB` are valid terminal blocks
   * EL starts with `A.TB` as the head
@@ -398,7 +398,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/f2838a629dcd1a027a260cd10fc84899f89e3ba6/simulators/ethereum/engine/mergetests.go#L244)] Syncing with the chain having a valid transition
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- Bn <- TB <- P1`, `TB` is a valid terminal block
   * EL starts with `Bn` as the head
@@ -414,7 +414,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Syncing with the chain having invalid *terminal* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- Bn <- INV_TB <- P1 <- P2`, `INV_TB` is a *valid PoW* but an *invalid terminal* block:
     * [ ] `INV_TB.TD < TTD`
@@ -432,7 +432,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Syncing with the chain having invalid *transition* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- Bn <- TB <- INV_P1 <- P2`, `TB` is a valid terminal block, `INV_P1` is an invalid payload
   * EL starts with `Bn` as the head
@@ -447,7 +447,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Syncing with the chain having invalid *post-transition* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- Bn <- TB <- P1 <- INV_P2 <- P3`, `TB` is a valid terminal block, `INV_P2` is an invalid payload
   * EL starts with `Bn` as the head
@@ -462,7 +462,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Re-org and sync with the chain having invalid *terminal* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB <- P1 <- P2`, `B: Genesis <- ...  <- INV_TB <- P1 <- P2`, `B.INV_TB` is a *valid PoW* but an *invalid terminal* block:
     * [ ] `INV_TB.TD < TTD`
@@ -481,7 +481,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Re-org and sync with the chain having invalid *transition* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB <- P1 <- P2`, `B: Genesis <- ... <- TB <- INV_P1 <- P2`, `B.TB` is a valid terminal block, `B.INV_P1` is an invalid payload
   * EL starts with `A.P2` as the head
@@ -496,7 +496,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Re-org and sync with the chain having invalid *post-transition* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB <- P1 <- P2 <- P3`, `B: Genesis <- ... <- TB <- P1 <- INV_P2 <- P3`, `B.TB` is a valid terminal block, `B.INV_P2` is an invalid payload
   * EL starts with `A.P2` as the head
@@ -511,7 +511,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Stop processing gossiped PoW blocks
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * PoW/Clique miner builds a chain and advertises it via gossip; the chain goes beyond a terminal PoW block
   * EL is connected to the miner and does not process blocks after the terminal one, i.e. the head points to the terminal block
@@ -520,7 +520,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/f2838a629dcd1a027a260cd10fc84899f89e3ba6/simulators/ethereum/engine/mergetests.go#L228)] Stop processing synced PoW blocks
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * PoW client starts with `Genesis <- ... <- TB <- B1 <- B2 <- ... <- Bn` chain, where `TB` is a valid terminal block
   * EL connects to the PoW client and syncs with the advertised chain
@@ -530,7 +530,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Terminal blocks are gossiped
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * Consider `PoW <-> EL1 <-> EL2` as a PoW client connected to EL client `EL1`, which in its turn connected to EL client `EL2`. There is no direct connection between `EL2` and `PoW` clients.
   * `PoW` client gossips a terminal block `TB`
@@ -544,7 +544,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Transition on a valid chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL: Genesis <- ... <- TB`, `TB` is a valid terminal block
   * `CL: Genesis <- ... <- Bellatrix`
@@ -559,7 +559,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Build atop of invalid terminal block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- Bn`, `Bn` is a *valid PoW* but an *invalid terminal* block, i.e. `Bn.TD < EL.TTD`
   * `Bn` is a valid terminal block to CL's observation, i.e. CL's `TERMINAL_TOTAL_DIFFICULTY` is configured in the following way:
@@ -572,7 +572,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Transition on a chain with invalid *terminal* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL: Genesis <- ... <- Bn`
   * Nodes: builder, importer; importer is connected to builder on both layers
@@ -588,7 +588,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Transition on a chain with invalid *transition* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL: Genesis <- ... <- Bn`
   * Nodes: builder, importer; importer is connected to builder on both layers
@@ -602,7 +602,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Syncing with the chain having a valid transition block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL.A: Genesis <- ... <- Bn`, `EL.B: Genesis <- ... <- Bn`; `A` and `B` has equal `TD`
   * Nodes: builder, importer; builder starts synced with `EL.A`, importer with `EL.B`, same `TD` value on both chains prevents importer from pulling builder's chain beforehand
@@ -615,7 +615,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Syncing with the chain having invalid *transition* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL.A: Genesis <- ... <- Bn`, `EL.B: Genesis <- ... <- Bn`; `A` and `B` has equal `TD`
   * Nodes: builder, importer; builder starts synced with `EL.A`, importer with `EL.B`, same `TD` value on both chains prevents importer from pulling builder's chain beforehand
@@ -632,7 +632,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Syncing with the chain having invalid *post-transition* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL.A: Genesis <- ... <- Bn`, `EL.B: Genesis <- ... <- Bn`; `A` and `B` has equal `TD`
   * Nodes: builder, importer; builder starts synced with `EL.A`, importer with `EL.B`, same `TD` value on both chains prevents importer from pulling builder's chain beforehand
@@ -648,7 +648,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 * [ ] Re-org and sync with the chain having invalid *terminal* block
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL.A: Genesis <- ... <- Bn`, `EL.B: Genesis <- ... <- Bn`; `A` and `B` has equal `TD`
   * Nodes: valid builder, invalid builder, importer; valid builder and importer start synced with `EL.A`, invalid builder with `EL.B`, same `TD` value on both chains prevents importer and valid builder from pulling invalid builder's chain beforehand. Valid builder has `1/2n - x`, invalid builder has `1/2 + x` validators, where `x` is a small number
@@ -701,7 +701,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
 * [ ] Propose valid transition block with enabled `TBH` override
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB`, `TB` is a valid terminal block, `TB.blockHash == TBH`
   * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
@@ -718,7 +718,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
 * [ ] Build atop of invalid terminal block with enabled `TBH` override
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- INV_TB`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `INV_TB.TD < TTD` and `TBH != INV_TB.blockHash`
   * EL starts with `INV_TB` as the head
@@ -730,7 +730,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
 * [ ] Transition on a valid chain with enabled `TBH` override
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB <- P1 <- P2 <- P3`, `TB` is a valid terminal block, i.e. `TB.blockHash == TBH`
   * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
@@ -756,7 +756,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
 * [ ] Transition on an invalid chain with enabled `TBH` override
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- ... <- INV_TB <- P1`, `INV_TB` is a *valid PoW* but an *invalid terminal* block, i.e. `TBH != INV_TB.blockHash` and either of the following is true:
     * [ ] `INV_TB.TD < TTD`
@@ -770,7 +770,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
 * [ ] Syncing with the chain having a valid transition, with enabled `TBH` override
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- Bn <- TB <- P1`, `TB` is a valid terminal block, i.e. `TB.blockHash == TBH`
   * `B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
@@ -787,7 +787,7 @@ With the above thoughts in mind, the goal of this section is to check that `TBH`
 
 * [ ] Stop processing synced PoW blocks with `TBH` override enabled
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * PoW client starts with `Genesis <- ... <- TB <- B1 <- B2 <- ... <- Bn` chain, where `TB` is a valid terminal block, i.e. `TB.blockHash == TBH`
   * EL connects to the PoW client and syncs with the advertised chain
@@ -802,7 +802,7 @@ An importer is a node that imports the chain built by and received from the buil
 
 * [ ] Transition on a valid chain with `TBH` override enabled
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL.A: Genesis <- ... <- TB`, `TB` is a valid terminal block. i.e. `TB.blockHash == TBH`
   * `EL.B: Genesis <- ... <- Bn`, `B` chain is heavier than `A` and would be canonical unless `TBH` override is activated
@@ -821,7 +821,7 @@ An importer is a node that imports the chain built by and received from the buil
 
 * [ ] Transition before `TERMINAL_BLOCK_HASH_ACTIVATION_EPOCH`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL: Genesis <- ... <- Bn`
   * Nodes: builder, importer; importer is connected to builder on both layers
@@ -835,7 +835,7 @@ An importer is a node that imports the chain built by and received from the buil
 
 * [ ] Transition with mismatched `TERMINAL_BLOCK_HASH`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `EL: Genesis <- ... <- Bn`
   * Nodes: builder, importer; importer is connected to builder on both layers

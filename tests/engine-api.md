@@ -14,7 +14,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L610)] Invalid `block_hash`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L578)] test should cover `block_hash` validation when EL is `SYNCING` and isn't `SYNCING` to be sure that sync doesn't affect the validation
   * test should cover all possible inconsistencies of `block_hash` that are fairly easy to do, i.e. random hash, hash of a block if it were a valid PoW block, etc
@@ -24,7 +24,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/clmock.go#L244)] `VALID` *canonical* chain payload
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `P` is a `VALID` payload extending *canonical* chain
   * `newPayload(P)`
@@ -38,7 +38,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/535)] Inconsistent `ForkchoiceState`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3`, `B: Genesis <- P1' <- P2' <- P3'`
   * EL client starts with fully imported `A` and `B`
@@ -55,7 +55,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/enginetests.go#L695)] `INVALID` *canonical* chain payload
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain
   * `INV_P` has a valid `block_hash` but is invalidated by the following invalid properties:
@@ -78,7 +78,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/enginetests.go#L352)] Payload with unknown parent
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3`, `B:  Genesis <- P1' <- P2' <- P3'`
   * EL client starts with `Genesis` block and state
@@ -101,7 +101,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/526)] `SYNCING` with *invalid* chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- INV_P2' <- P3' <- P4'`, `INV_P2'` is invalid payload
   * `INV_P2'` has a valid `block_hash` but is invalidated by the following invalid properties:
@@ -131,7 +131,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/7d24e9bcf30dc6546fb821848ff0c8d279a80eaa/simulators/ethereum/engine/clmock.go#L295)] Build a payload
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `Genesis <- P1`
   * EL clients starts with `Genesis` block and state
@@ -164,7 +164,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/527)] Invalid `PayloadAttributes`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `Genesis <- P1`
   * EL clients starts with `Genesis` block and state
@@ -178,7 +178,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1213)] `VALID` *side* chain payload
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `P'` is a `VALID` payload extending *side* chain
   * `P` and `P'` contain the same transaction which uses `PREVRANDAO` to modify storage
@@ -194,7 +194,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [ ] Update finalized and safe block on canonical chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- P4` is a subchain of valid payloads extending canonical chain
   * `newPayload(P1) + forkchoiceUpdated(finalized: Genesis, safe: Genesis, head: P1)`
@@ -209,7 +209,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [ ] Update safe block on a *side* chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3` is a subchain of valid payloads extending canonical chain, `B: Genesis <- P1 <- P2' <- P3'` is a subchain of valid payloads extending side chain
   * import `A` and call `forkchoiceUpdated(finalized: P1, safe: P2, head: P3)`
@@ -222,7 +222,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1638)] `SYNCING` with *valid* chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- ... <- Pn`
   * EL client starts with `Genesis` block and state
@@ -237,7 +237,7 @@ All test cases described in this document are beginning in a post-Merge world, i
                                  
 * [x] [[Hive PR](https://github.com/ethereum/hive/pull/539)] Re-org back to canonical chain while `SYNCING`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `A: Genesis <- P1 <- P2 <- P3 <- P4`, `B: Genesis <- P1' <- P2' <- P3' <- P4'`
   * EL client is synced up to `A.P3` block, i.e. `A.P3` is the head
@@ -251,7 +251,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   </details>
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1122)] Re-org to a _side_ chain where a transaction is removed
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `A: Genesis <- P1`, `B: Genesis <- P1'`
   * `P1` and `P1'` are valid payloads
@@ -269,7 +269,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1275)] `newPayload` with existing canonical chain payload
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- ... <- Pn`
   * `newPayload(P1) + forkchoiceUpdated(head: P1)` through `newPayload(Pn) + forkchoiceUpdated(head: Pn)`
@@ -283,7 +283,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/blob/ee8d44878b25fa3dec59e2536977af8a44b345dd/simulators/ethereum/engine/enginetests.go#L1091)] Import and re-org to previously validated payload
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
 
   * `Genesis <- P1 <- P2 <- P3 <- P4`
   * EL starts with `head: P4, safe: P3, finalized: P2`
@@ -315,7 +315,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `QUANTITY` field values are encoded correctly
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * Payload `P1` has all `QUANTITY` field values greater than `255`
   * CL processes `BeaconBlock(P1)`
@@ -325,7 +325,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `INVALID` *canonical* chain payload
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain
   * CL imports `BeaconBlock(INV_P)`
@@ -336,16 +336,16 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `Timestamp`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain produced by the EL where `timestamp` value extends beyond the current slot time range
   * CL rejects `INV_P`
   
   </details>
 
-  * [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `PrevRandao`
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `PrevRandao`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `INV_P` is an `INVALID` payload extending *canonical* chain produced by the EL where `prevRandao` value is not the expected randao mix value for the given slot
   * CL rejects `INV_P`
@@ -354,7 +354,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/569)] Invalid `block_hash`
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * Payload `P` is responded with `INVALID_BLOCK_HASH`
     * EL mock artificially returns this status
@@ -364,7 +364,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `SYNCING` with *invalid* chain
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `Genesis <- P1 <- P2 <- P3 <- P4`
   * CL imports `BeaconBlock(P1) ... BeaconBlock(P4)` block by block
@@ -378,7 +378,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `baseFee` encoding check
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * EL generates a payload `P1` where the `baseFee` field is greater or equal to 256
   * CL accepts, broadcasts and validates the payload with the correct endianess
@@ -388,7 +388,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
 * [ ] Timeouts
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `P` is a `VALID` payload extending *canonical* chain
   * CL imports `BeaconBlock(P)`
