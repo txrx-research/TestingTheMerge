@@ -663,9 +663,9 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-  * [[Hive](https://github.com/ethereum/hive/pull/569)] `TTD` before Bellatrix
+* [x] [[Hive](https://github.com/ethereum/hive/pull/569)] `TTD` before Bellatrix
   <details>
-  <summary>Click for details &#9662;</summary>
+  <summary>Click for details</summary>
   
   * `Genesis <- ... <- Bn`
   * EL clients start with `Bn` as head of the proof of work chain
