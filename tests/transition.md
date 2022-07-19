@@ -542,7 +542,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 
 ### CL client tests
 
-* [ ] Transition on a valid chain
+* [x] [[Hive](https://github.com/ethereum/hive/pull/606)] Transition on a valid chain
   <details>
   <summary>Click for details</summary>
 
@@ -557,7 +557,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Build atop of invalid terminal block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/606)] Build atop of invalid terminal block
   <details>
   <summary>Click for details</summary>
 
@@ -570,7 +570,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Transition on a chain with invalid *terminal* block
+* [x] [[Hive](https://github.com/ethereum/hive/blob/01ce64b0354c5551956a98e817328e0df43d61c7/simulators/eth2/engine/scenarios.go#L409)] Transition on a chain with invalid *terminal* block
   <details>
   <summary>Click for details</summary>
 
@@ -586,7 +586,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Transition on a chain with invalid *transition* block
+* [x] [[Hive](https://github.com/ethereum/hive/blob/01ce64b0354c5551956a98e817328e0df43d61c7/simulators/eth2/engine/scenarios.go#L132)] Transition on a chain with invalid *transition* block
   <details>
   <summary>Click for details</summary>
 
@@ -600,7 +600,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Syncing with the chain having a valid transition block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/606)] Syncing with the chain having a valid transition block
   <details>
   <summary>Click for details</summary>
 
@@ -613,7 +613,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Syncing with the chain having invalid *transition* block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/606)] Syncing with the chain having invalid *transition* block
   <details>
   <summary>Click for details</summary>
 
@@ -630,7 +630,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Syncing with the chain having invalid *post-transition* block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/606)] Syncing with the chain having invalid *post-transition* block
   <details>
   <summary>Click for details</summary>
 
@@ -646,7 +646,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Re-org and sync with the chain having invalid *terminal* block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/606)] Re-org and sync with the chain having invalid *terminal* block
   <details>
   <summary>Click for details</summary>
 
@@ -656,7 +656,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   * `B.Bn` is an *invalid* terminal block to the importer's observation, but valid to the invalid builder's observation
   * Two builders start with `CL: Genesis` and builds a chain up to Bellatrix and beyond. They should stay in consensus up to Bellatrix and then fall apart starting with a transition block
     * Importer's head eventually is coherent with a valid builder
-    * Ideally, the valid builder proposes a transition block *before* the invalid builder's does the same -- these can be achived by playing with validator distribution
+    * Ideally, the valid builder proposes a transition block *before* the invalid builder's does the same -- these can be achieved by playing with validator distribution
       * Then a transition block proposed by the invalid builder will have to be applied optimistically with [`SAFE_SLOTS_TO_IMPORT_OPTIMISTICALLY`](https://github.com/ethereum/consensus-specs/blob/dev/sync/optimistic.md#constants) timeout -- it will give a time for importer to follow the valid chain
       * Invalid chain gets applied optimistically (because the invalid builder has more attesters and its chain is preferred by the fork choice rule) and importer's EL eventually responds with `{status: INVALID, latestValidHash: 0x00.00}` on this chain
       * CL is expected to invalidate the invalid chain blocks and switch back to the minor but valid chain
