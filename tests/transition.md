@@ -509,7 +509,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Stop processing gossiped PoW blocks
+* [[Hive](https://github.com/ethereum/hive/pull/613)] Stop processing gossiped PoW blocks
   <details>
   <summary>Click for details</summary>
 
@@ -528,7 +528,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Terminal blocks are gossiped
+* [[Hive](https://github.com/ethereum/hive/pull/613)] Terminal blocks are gossiped
   <details>
   <summary>Click for details</summary>
 
@@ -537,6 +537,17 @@ All test cases described in this document are beginning in a pre-Merge world and
     * Head of `EL2` client points to `TB`
   * `PoW` client gossips a descendant of `TB`
     * Head of `EL2` client points to `TB`
+  
+  </details>
+
+* [[Hive](https://github.com/ethereum/hive/pull/613)] Build Payload After Multiple Terminal blocks via gossip
+  <details>
+  <summary>Click for details</summary>
+
+  * Consider `PoW <-> EL` as a PoW client connected to EL client `EL`.
+  * `PoW` client produces and gossips multiple terminal blocks `TB1`, `TB2`, ... `TBN`
+  * `newPayload(TBN)` is sent to `EL`
+    * `EL` immediately returns `{status: VALID, latestValidHash: TBN.BlockHash}`
   
   </details>
 
