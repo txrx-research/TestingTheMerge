@@ -375,6 +375,8 @@ All test cases described in this document are beginning in a pre-Merge world and
   * `newPayload(P1)`
     * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
     * EL's head points to `INV_TB` if `INV_TB.TD < TTD`, and to `INV_TB.parent` if `INV_TB.parent.TD >= TTD`
+  
+  </details>
 
 * [x] [[Hive](https://github.com/ethereum/hive/pull/556)] Re-org to a chain with invalid transition block
   <details>
@@ -425,7 +427,23 @@ All test cases described in this document are beginning in a pre-Merge world and
     * EL's head points to `Bn`
   * EL should pull `INV_TB <- P1` from the network
   * poll `forkchoiceUpdated(P1)`
-    * EL returns `{status: INVALID, latestValidHash: 0x00.00}`
+    * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
+    * EL's head points to `Bn`
+  
+  </details>
+
+* [ ] Syncing with the chain where *terminal* block is invalid with respect to EE
+  <details>
+  <summary>Click for details</summary>
+
+  * `Genesis <- ... <- Bn <- INV_TB <- P1 <- P2`, `INV_TB` satisfies `TTD` but is invalid in terms of execution
+  * EL starts with `Bn` as the head
+  * `newPayload(P1) + forkchoiceUpdated(P1)`
+    * EL returns `{status: SYNCING}`
+    * EL's head points to `Bn`
+  * EL should pull `INV_TB <- P1` from the network
+  * poll `forkchoiceUpdated(P1)`
+    * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
     * EL's head points to `Bn`
   
   </details>
@@ -440,7 +458,7 @@ All test cases described in this document are beginning in a pre-Merge world and
     * EL returns `{status: SYNCING}`
     * EL's head points to `Bn`
   * poll `forkchoiceUpdated(P2)`
-    * EL returns `{status: INVALID, latestValidHash: 0x00.00}`
+    * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
     * EL's head points to `TB`
   
   </details>
@@ -474,7 +492,7 @@ All test cases described in this document are beginning in a pre-Merge world and
     * EL's head points to `A.P2`
   * EL should pull `B: INV_TB <- P1 <- P2` from the network
   * poll `forkchoiceUpdated(B.P2)`
-    * EL returns `{status: INVALID, latestValidHash: 0x00.00}`
+    * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
     * EL's head points to `A.P2`
   
   </details>
@@ -489,7 +507,7 @@ All test cases described in this document are beginning in a pre-Merge world and
     * EL returns `{status: SYNCING}`
     * EL's head points to `A.P2`
   * poll `forkchoiceUpdated(B.P2)`
-    * EL returns `{status: INVALID, latestValidHash: 0x00.00}`
+    * EL returns `{status: INVALID, latestValidHash: 0x00..00}`
     * EL's head points to `A.P2`
   
   </details>
@@ -669,7 +687,7 @@ All test cases described in this document are beginning in a pre-Merge world and
     * Importer's head eventually is coherent with a valid builder
     * Ideally, the valid builder proposes a transition block *before* the invalid builder's does the same -- these can be achieved by playing with validator distribution
       * Then a transition block proposed by the invalid builder will have to be applied optimistically with [`SAFE_SLOTS_TO_IMPORT_OPTIMISTICALLY`](https://github.com/ethereum/consensus-specs/blob/dev/sync/optimistic.md#constants) timeout -- it will give a time for importer to follow the valid chain
-      * Invalid chain gets applied optimistically (because the invalid builder has more attesters and its chain is preferred by the fork choice rule) and importer's EL eventually responds with `{status: INVALID, latestValidHash: 0x00.00}` on this chain
+      * Invalid chain gets applied optimistically (because the invalid builder has more attesters and its chain is preferred by the fork choice rule) and importer's EL eventually responds with `{status: INVALID, latestValidHash: 0x00..00}` on this chain
       * CL is expected to invalidate the invalid chain blocks and switch back to the minor but valid chain
   
   </details>
