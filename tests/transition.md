@@ -509,7 +509,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [[Hive](https://github.com/ethereum/hive/pull/613)] Stop processing gossiped PoW blocks
+* [x] [[Hive](https://github.com/ethereum/hive/pull/613)] Stop processing gossiped PoW blocks
   <details>
   <summary>Click for details</summary>
 
@@ -528,7 +528,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [[Hive](https://github.com/ethereum/hive/pull/613)] Terminal blocks are gossiped
+* [x] [[Hive](https://github.com/ethereum/hive/pull/613)] Terminal blocks are gossiped
   <details>
   <summary>Click for details</summary>
 
@@ -540,7 +540,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [[Hive](https://github.com/ethereum/hive/pull/613)] Build Payload After Multiple Terminal blocks via gossip
+* [x] [[Hive](https://github.com/ethereum/hive/pull/613)] Build Payload After Multiple Terminal blocks via gossip
   <details>
   <summary>Click for details</summary>
 
