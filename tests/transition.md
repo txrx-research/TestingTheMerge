@@ -8,7 +8,7 @@ All test cases described in this document are beginning in a pre-Merge world and
 - [`TERMINAL_TOTAL_DIFFICULTY`](#terminal_total_difficulty)
   - [EL client tests](#el-client-tests)
   - [CL client tests](#cl-client-tests)
-- [`TERMINAL_BLOCK_HASH`](#terminal_block_hash)
+- [[BONUS] `TERMINAL_BLOCK_HASH`](#bonus-terminal_block_hash)
   - [EL client tests](#el-client-tests-1)
   - [CL client tests](#cl-client-tests-1)
 
@@ -686,7 +686,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-## `TERMINAL_BLOCK_HASH`
+## [BONUS] `TERMINAL_BLOCK_HASH`
 
 Scenarios in this section are covering the case when a terminal PoW block is designated by specifying a certain `blockHash` value which is specified by `TERMINAL_BLOCK_HASH` parameter.
 
