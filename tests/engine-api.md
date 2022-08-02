@@ -397,3 +397,18 @@ All test cases described in this document are beginning in a post-Merge world, i
     * `P` is the head of EL chain
 
   </details>
+
+* [ ] No viable head due to optimistic sync
+  <details>
+  <summary>Click for details</summary>
+  
+  * `... <- P0 <- P1 <- P2 <- ... <- Pn`, `n >= SLOTS_PER_EPOCH`, i.e. `P1 <- ... <- Pn` crosses epoch boundary
+  * `BeaconBlock(P0).slot % SLOTS_PER_EPOCH == 0`, `BeaconBlock(P0)` epoch is at least 2 epochs far from Genesis' epoch
+  * CL imports `BeaconBlock(P0), ..., BeaconBlock(Pn)` block by block
+    * EL mock returns valid to `newPayload(P0)` call
+    * EL mock should start responding `SYNCING` to `newPayload(P1)` and keep return `SYNCING` until `newPayload(P[n-1])`
+    * CL enters optimistic mode since `BeaconBlock(P1)`
+    * EL mock should respond `status: INVALID, latestValidHash: P1.blockHash` to `newPayload(Pn)`
+  * CL stays optimistic, i.e. `execution_optimistic` flag in Beacon API responses is `true`
+  
+  </details>
