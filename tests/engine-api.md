@@ -397,3 +397,29 @@ All test cases described in this document are beginning in a post-Merge world, i
     * `P` is the head of EL chain
 
   </details>
+
+* [ ] No viable head due to optimistic sync
+  <details>
+  <summary>Click for details</summary>
+  
+  * Configuration
+    * `SLOTS_PER_EPOCH = 32`
+  * `... <- P0 <- P1 <- P2 <- ... <- Pn`
+    * `BeaconBlock(P0).slot % SLOTS_PER_EPOCH == 0`
+    * `BeaconBlock(P0).slot >= 128` to be far enough from Genesis
+  * CLs (builder and importer) process `BeaconBlock(P0), ..., BeaconBlock(P30)`
+    * EL mock returns `status: VALID`
+  * CL builder
+    * `BeaconBlock(P31)`: EL mock returns `status: VALID`
+    * `BeaconBlock(P32)`: EL mock returns `status: INVALID`
+    * `BeaconBlock(P33)` and onwards: EL mock returns `status: VALID`, `BeaconBlock(P33)` is built atop of `BeaconBlock(P31)`
+  * CL importer
+    * `BeaconBlock(P31)`: EL mock returns `status: SYNCING`
+    * `BeaconBlock(P32)`
+      * `newPayload(P32)`: `status: SYNCING`
+      * `forkchoiceUpdated(P32)`: `{status: INVALID, latestValidHash: P31.blockHash}`
+    * Check that the node stays optimistic, i.e. `execution_optimistic` flag in Beacon API responses is `true`
+    * `BeaconBlock(P33)`: EL mock returns `status: VALID`
+    * Check that the node is not optimistic anymore and `BeaconBlock(P33)` is the head
+  
+  </details>
