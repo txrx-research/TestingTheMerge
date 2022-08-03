@@ -407,7 +407,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   * `... <- P0 <- P1 <- P2 <- ... <- Pn`
     * `BeaconBlock(P0).slot % SLOTS_PER_EPOCH == 0`
     * `BeaconBlock(P0).slot >= 128` to be far enough from Genesis
-  * CLs (builder and importer) processes `BeaconBlock(P0), ..., BeaconBlock(P30)`
+  * CLs (builder and importer) process `BeaconBlock(P0), ..., BeaconBlock(P30)`
     * EL mock returns `status: VALID`
   * CL builder
     * `BeaconBlock(P31)`: EL mock returns `status: VALID`
