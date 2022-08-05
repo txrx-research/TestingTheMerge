@@ -407,19 +407,26 @@ All test cases described in this document are beginning in a post-Merge world, i
   * `... <- P0 <- P1 <- P2 <- ... <- Pn`
     * `BeaconBlock(P0).slot % SLOTS_PER_EPOCH == 0`
     * `BeaconBlock(P0).slot >= 128` to be far enough from Genesis
-  * CLs (builder and importer) process `BeaconBlock(P0), ..., BeaconBlock(P30)`
+  * CL builder1 and CL importer process `BeaconBlock(P0), ..., BeaconBlock(P10)`
     * EL mock returns `status: VALID`
-  * CL builder
-    * `BeaconBlock(P31)`: EL mock returns `status: VALID`
-    * `BeaconBlock(P32)`: EL mock returns `status: INVALID`
-    * `BeaconBlock(P33)` and onwards: EL mock returns `status: VALID`, `BeaconBlock(P33)` is built atop of `BeaconBlock(P31)`
+  * CL builder1
+    * `BeaconBlock(P11), ..., BeaconBlock(P33)`: EL mock returns `status: VALID`
   * CL importer
-    * `BeaconBlock(P31)`: EL mock returns `status: SYNCING`
-    * `BeaconBlock(P32)`
-      * `newPayload(P32)`: `status: SYNCING`
-      * `forkchoiceUpdated(P32)`: `{status: INVALID, latestValidHash: P31.blockHash}`
+    * `BeaconBlock(P10), ..., BeaconBlock(P32)`: EL mock returns `status: SYNCING`
+    * `BeaconBlock(P33)`
+      * first variation
+        * `newPayload(P33)`: `{status: INVALID, latestValidHash: P10.blockHash}`
+      * second variation
+        * `newPayload(P33)`: `{status: SYNCING}`
+        * `forkChoiceUpdated(P33)`: `{status: INVALID, latestValidHash: P10.blockHash}`
     * Check that the node stays optimistic, i.e. `execution_optimistic` flag in Beacon API responses is `true`
-    * `BeaconBlock(P33)`: EL mock returns `status: VALID`
-    * Check that the node is not optimistic anymore and `BeaconBlock(P33)` is the head
+  * CL builder1 gets shut down
+  * CL builder2 
+    * starts up, peers with CL importer and syncs up to `BeaconBlock(P10)`
+    * `BeaconBlock(P11, slot34), ..., BeaconBlock(Pn, slotN)`: EL mock returns `status: VALID`
+  * CL importer
+    * `BeaconBlock(P11, slot34), ..., BeaconBlock(Pn, slotN)`: EL mock returns `status: VALID`
+    * `slotN` should be high enough for importer to recover from optimistic state, `N >= 96`
+    * Check that the node is not optimistic anymore and `BeaconBlock(Pn, slotN)` is the head
   
   </details>
