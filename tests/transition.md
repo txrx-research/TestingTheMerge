@@ -414,13 +414,13 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Syncing with the chain having invalid *terminal* block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/627)] Syncing with the chain having invalid *terminal* block
   <details>
   <summary>Click for details</summary>
 
   * `Genesis <- ... <- Bn <- INV_TB <- P1 <- P2`, `INV_TB` is a *valid PoW* but an *invalid terminal* block:
-    * [ ] `INV_TB.TD < TTD`
-    * [ ] `INV_TB.parent.TD >= TTD` -- it might require a second EL with a higher `TTD` value
+    * [x] [[Hive](https://github.com/ethereum/hive/pull/627)] `INV_TB.TD < TTD`
+    * [x] [[Hive](https://github.com/ethereum/hive/pull/627)] `INV_TB.parent.TD >= TTD` -- it might require a second EL with a higher `TTD` value
   * EL starts with `Bn` as the head
   * `newPayload(P1) + forkchoiceUpdated(P1)`
     * EL returns `{status: SYNCING}`
@@ -448,7 +448,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Syncing with the chain having invalid *transition* block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/627)] Syncing with the chain having invalid *transition* block
   <details>
   <summary>Click for details</summary>
 
@@ -463,7 +463,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Syncing with the chain having invalid *post-transition* block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/627)] Syncing with the chain having invalid *post-transition* block
   <details>
   <summary>Click for details</summary>
 
@@ -478,13 +478,13 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Re-org and sync with the chain having invalid *terminal* block
+* [x] [[Hive](https://github.com/ethereum/hive/blob/4500c1ee28133a8090d126da789d13e11b7ef3f0/simulators/ethereum/engine/suites/transition/tests.go#L338-L387)] Re-org and sync with the chain having invalid *terminal* block
   <details>
   <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB <- P1 <- P2`, `B: Genesis <- ...  <- INV_TB <- P1 <- P2`, `B.INV_TB` is a *valid PoW* but an *invalid terminal* block:
-    * [ ] `INV_TB.TD < TTD`
-    * [ ] `INV_TB.parent.TD >= TTD`
+    * [[Hive](https://github.com/ethereum/hive/blob/4500c1ee28133a8090d126da789d13e11b7ef3f0/simulators/ethereum/engine/suites/transition/tests.go#L372)] `INV_TB.TD < TTD`
+    * [[Hive](https://github.com/ethereum/hive/blob/4500c1ee28133a8090d126da789d13e11b7ef3f0/simulators/ethereum/engine/suites/transition/tests.go#L338)] `INV_TB.parent.TD >= TTD`
   * This scenario may require second EL with a higher `TTD` value
   * EL starts with `A.P2` as the head
   * `newPayload(B.P2) + forkchoiceUpdated(P2)`
@@ -497,7 +497,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Re-org and sync with the chain having invalid *transition* block
+* [x] [[Hive](https://github.com/ethereum/hive/pull/627)] Re-org and sync with the chain having invalid *transition* block
   <details>
   <summary>Click for details</summary>
 
@@ -512,7 +512,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Re-org and sync with the chain having invalid *post-transition* block
+* [x] [[Hive](https://github.com/ethereum/hive/blob/master/simulators/ethereum/engine/suites/engine/tests.go#L315-L405)] Re-org and sync with the chain having invalid *post-transition* block
   <details>
   <summary>Click for details</summary>
 
