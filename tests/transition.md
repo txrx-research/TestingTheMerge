@@ -483,8 +483,8 @@ All test cases described in this document are beginning in a pre-Merge world and
   <summary>Click for details</summary>
 
   * `A: Genesis <- ... <- TB <- P1 <- P2`, `B: Genesis <- ...  <- INV_TB <- P1 <- P2`, `B.INV_TB` is a *valid PoW* but an *invalid terminal* block:
-    * [[Hive](https://github.com/ethereum/hive/blob/4500c1ee28133a8090d126da789d13e11b7ef3f0/simulators/ethereum/engine/suites/transition/tests.go#L372)] `INV_TB.TD < TTD`
-    * [[Hive](https://github.com/ethereum/hive/blob/4500c1ee28133a8090d126da789d13e11b7ef3f0/simulators/ethereum/engine/suites/transition/tests.go#L338)] `INV_TB.parent.TD >= TTD`
+    * [x] [[Hive](https://github.com/ethereum/hive/blob/4500c1ee28133a8090d126da789d13e11b7ef3f0/simulators/ethereum/engine/suites/transition/tests.go#L372)] `INV_TB.TD < TTD`
+    * [x] [[Hive](https://github.com/ethereum/hive/blob/4500c1ee28133a8090d126da789d13e11b7ef3f0/simulators/ethereum/engine/suites/transition/tests.go#L338)] `INV_TB.parent.TD >= TTD`
   * This scenario may require second EL with a higher `TTD` value
   * EL starts with `A.P2` as the head
   * `newPayload(B.P2) + forkchoiceUpdated(P2)`
