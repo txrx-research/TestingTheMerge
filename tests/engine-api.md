@@ -398,7 +398,7 @@ All test cases described in this document are beginning in a post-Merge world, i
 
   </details>
 
-* [ ] No viable head due to optimistic sync
+* [x] [[Hive PR](https://github.com/ethereum/hive/pull/637)] No viable head due to optimistic sync
   <details>
   <summary>Click for details</summary>
   
