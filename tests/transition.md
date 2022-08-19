@@ -432,7 +432,7 @@ All test cases described in this document are beginning in a pre-Merge world and
   
   </details>
 
-* [ ] Syncing with the chain where *terminal* block is invalid with respect to EE
+* [x] [[Hive](https://github.com/ethereum/hive/pull/638)] Syncing with the chain where *terminal* block is invalid with respect to EE
   <details>
   <summary>Click for details</summary>
 
