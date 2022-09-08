@@ -386,7 +386,7 @@ All test cases described in this document are beginning in a post-Merge world, i
   
   </details>
 
-* [ ] Timeouts
+* [x] [[Hive](https://github.com/ethereum/hive/pull/643)] Timeouts
   <details>
   <summary>Click for details</summary>
   
